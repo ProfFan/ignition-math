@@ -60,15 +60,18 @@ namespace ignition
 
       /// \brief Constructor. Parameter is assumed to be radians.
       /// \param[in] _radian Radians
-      public: explicit Angle(const int _radian);
+      // cppcheck-suppress noExplicitConstructor
+      public: Angle(const int _radian);
 
       /// \brief Constructor. Parameter is assumed to be radians.
       /// \param[in] _radian Radians
-      public: explicit Angle(const double _radian);
+      // cppcheck-suppress noExplicitConstructor
+      public: Angle(const double _radian);
 
       /// \brief Constructor. Parameter is assumed to be radians.
       /// \param[in] _radian Radians
-      public: explicit Angle(const long double _radian);
+      // cppcheck-suppress noExplicitConstructor
+      public: Angle(const long double _radian);
 
       /// \brief Copy constructor
       /// \param[in] _angle Angle to copy
