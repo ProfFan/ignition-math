@@ -13,9 +13,17 @@ pipelines:
           # Ignition cmake
           - echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable xenial main" > /etc/apt/sources.list.d/gazebo-stable.list
           - apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys D2486D2DD83DB69272AFE98867170598AF249743
-          - apt-get update
-          - apt-get -y install
-            libignition-cmake-dev
+          #- apt-get update
+          #- apt-get -y install
+          #  libignition-cmake-dev
+          # build ign-cmake from source
+          - hg clone https://bitbucket.org/ignitionrobotics/ign-cmake -b no_branch_coverage
+          - cd ign-cmake
+          - mkdir build
+          - cd build
+          - cmake .. -DBUILD_TESTING=OFF
+          - make install
+          - cd ../..
           # Ignition math
           - mkdir build
           - cd build
