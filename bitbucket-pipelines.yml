@@ -16,7 +16,7 @@ pipelines:
           #- apt-get update
           #- apt-get -y install
           #  libignition-cmake-dev
-          # build ign-cmake from source
+          # build ign-cmake from source to test branch
           - hg clone https://bitbucket.org/ignitionrobotics/ign-cmake -b no_branch_coverage
           - cd ign-cmake
           - mkdir build
