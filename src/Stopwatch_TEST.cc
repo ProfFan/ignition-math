@@ -77,9 +77,9 @@ void runTimer(math::Stopwatch &_time)
   // The elapsed stop time should be greater than or equal to the time
   // slept.
   EXPECT_GE(_time.ElapsedStopTime(), std::chrono::milliseconds(1000))
-    << "ElapsedRunTime "
+    << "ElapsedStopTime "
     << std::chrono::duration_cast<std::chrono::microseconds>(
-          _time.ElapsedRunTime()).count()
+          _time.ElapsedStopTime()).count()
     << " us vs 1000000 us" << std::endl;
   // The elapsed time should be the same.
   EXPECT_EQ(elapsedTime, _time.ElapsedRunTime());
