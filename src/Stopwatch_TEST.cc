@@ -34,6 +34,22 @@ TEST(Stopwatch, Constructor)
 }
 
 /////////////////////////////////////////////////
+// Helper function that expects _duration1 >= _duration2
+// with some extra debug statements in the case of failure
+void expectDurationGE(const ignition::math::clock::duration &_duration1,
+                      const ignition::math::clock::duration &_duration2,
+                      const std::string &_label1 = "duration1",
+                      const std::string &_label2 = "duration2")
+{
+  EXPECT_GE(_duration1, _duration2)
+    << _label1 << " "
+    << std::chrono::duration_cast<std::chrono::microseconds>(_duration1).count()
+    << " us >= " << _label2 << " "
+    << std::chrono::duration_cast<std::chrono::microseconds>(_duration2).count()
+    << " us" << std::endl;
+}
+
+/////////////////////////////////////////////////
 // Helper function that runs a few tests
 void runTimer(math::Stopwatch &_time)
 {
@@ -50,11 +66,8 @@ void runTimer(math::Stopwatch &_time)
   // Wait for some time...
   std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   // Now the elapsed time should be greater than or equal to the time slept.
-  EXPECT_GE(_time.ElapsedRunTime(), std::chrono::milliseconds(1000))
-    << "ElapsedRunTime "
-    << std::chrono::duration_cast<std::chrono::microseconds>(
-          _time.ElapsedRunTime()).count()
-    << " us vs 1000000 us" << std::endl;
+  expectDurationGE(_time.ElapsedRunTime(), std::chrono::milliseconds(1000),
+                "_time.ElapsedRunTime()", "std::chrono::milliseconds(1000)");
 
   // Stop the timer.
   EXPECT_TRUE(_time.Stop());
@@ -63,11 +76,8 @@ void runTimer(math::Stopwatch &_time)
   // The stop time should be greater than the start time.
   EXPECT_GT(_time.StopTime(), _time.StartTime());
   // The elapsed time should still be greater than the time slept.
-  EXPECT_GE(_time.ElapsedRunTime(), std::chrono::milliseconds(1000))
-    << "ElapsedRunTime "
-    << std::chrono::duration_cast<std::chrono::microseconds>(
-          _time.ElapsedRunTime()).count()
-    << " us vs 1000000 us" << std::endl;
+  expectDurationGE(_time.ElapsedRunTime(), std::chrono::milliseconds(1000),
+                "_time.ElapsedRunTime()", "std::chrono::milliseconds(1000)");
 
   // Save the elapsed time.
   auto elapsedTime = _time.ElapsedRunTime();
@@ -76,11 +86,8 @@ void runTimer(math::Stopwatch &_time)
   std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   // The elapsed stop time should be greater than or equal to the time
   // slept.
-  EXPECT_GE(_time.ElapsedStopTime(), std::chrono::milliseconds(1000))
-    << "ElapsedStopTime "
-    << std::chrono::duration_cast<std::chrono::microseconds>(
-          _time.ElapsedStopTime()).count()
-    << " us vs 1000000 us" << std::endl;
+  expectDurationGE(_time.ElapsedStopTime(), std::chrono::milliseconds(1000),
+                "_time.ElapsedStopTime()", "std::chrono::milliseconds(1000)");
   // The elapsed time should be the same.
   EXPECT_EQ(elapsedTime, _time.ElapsedRunTime());
 
@@ -98,11 +105,8 @@ void runTimer(math::Stopwatch &_time)
   EXPECT_GT(_time.ElapsedRunTime(), elapsedTime);
   // The elapsed time should be greater than or equal to the the previous
   // two sleep times.
-  EXPECT_GE(_time.ElapsedRunTime(), std::chrono::milliseconds(2000))
-    << "ElapsedRunTime "
-    << std::chrono::duration_cast<std::chrono::microseconds>(
-          _time.ElapsedRunTime()).count()
-    << " us vs 2000000 us" << std::endl;
+  expectDurationGE(_time.ElapsedRunTime(), std::chrono::milliseconds(2000),
+                "_time.ElapsedRunTime()", "std::chrono::milliseconds(2000)");
 }
 
 /////////////////////////////////////////////////
