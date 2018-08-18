@@ -53,6 +53,15 @@ void expectDurationGE(const ignition::math::clock::duration &_duration1,
 // Helper function that runs a few tests
 void runTimer(math::Stopwatch &_time)
 {
+  // Windows uses a system_clock for std::this_thread::sleep_for. This can
+  // cause incorrect sleep durations. So, we add some room for error on
+  // windows.
+  std::chrono::duration<int, std::milli> handleSteadyClock =
+    std::chrono::milliseconds(0);
+#ifdef _WIN32
+  handleSteadyClock = std::chrono::milliseconds(100);
+#endif
+
   // Start the timer
   EXPECT_TRUE(_time.Start());
   // The timer should be running.
